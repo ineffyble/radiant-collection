@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Nunito:ital,wght@0,400;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Comfortaa", cursive;
+  
+  --color-text: #3d2a55;
+  --color-text-mid: #7a5d9a;
+  --color-text-light: #a890c8;
+  --color-pink: #f5a0cc;
+  --color-pink-soft: #fde0f2;
+  --color-lavender: #c5a8f5;
+  --color-lav-soft: #ede0ff;
+  --color-mint: #90dbc0;
+  --color-mint-soft: #d8f7ed;
+}
+
+@layer base {
+  body {
+    @apply text-text font-sans selection:bg-pink/30;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 80% 50% at 15% 5%, #ffd6ef88 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 85% 15%, #e0d0ff88 0%, transparent 50%),
+      radial-gradient(ellipse 70% 60% at 50% 95%, #c0f0e088 0%, transparent 55%),
+      #fdf5fb;
+    background-attachment: fixed;
+  }
+}
+
+.sparkle-text {
+  background: linear-gradient(130deg, #c050a8 0%, #845dd4 45%, #3d9fcb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bar-shift {
+  background: linear-gradient(90deg, #ff9de0, #c59fff, #9dcfff, #9dffdc, #fff59d, #ff9de0);
+  background-size: 300% 100%;
+  animation: bar-shift 5s linear infinite;
+}
+
+@keyframes bar-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+.holo-bg {
+  background: linear-gradient(135deg, #ffc6ea55, #e8c0ff55, #c0d8ff55, #baffd855, #ffefc055, #ffc6ea55);
+  background-size: 400% 400%;
+  animation: holo 6s ease infinite;
+}
+
+.holo-card {
+  background: linear-gradient(135deg, #ffc6ea, #e8c0ff, #c0d8ff, #baffd8, #ffefc0, #ffc6ea);
+  background-size: 400% 400%;
+  animation: holo 6s ease infinite;
+}
+
+@keyframes holo {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.sp-drift {
+  animation: sp-drift linear infinite;
+}
+
+@keyframes sp-drift {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-12vh) rotate(360deg); opacity: 0; }
+}
+
+.glass-section {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(170, 100, 230, 0.10), 0 2px 8px rgba(170, 100, 230, 0.06);
+}
+
