@@ -1,20 +1,78 @@
-/**
- * Update this file to track your collection!
- * The key is the card ID (e.g., 'ltr-rc1', 'g1-rc14')
- * The value is the number of copies you have.
- */
-export const MY_COLLECTION: Record<string, number> = {
-  // Legendary Treasures (RC1)
-  'bw11-RC1': 1,
-  'bw11-RC4': 2,
-  'bw11-RC10': 1,
-  'bw11-RC21': 0, // Not collected yet
-  'bw11-RC25': 1,
+export const COLLECTION = {
+  sets: [
+    {
+      id: "bw-rc",
+      tcgSetId: "bw11",
+      name: "Radiant Collection",
+      subtitle: "BW: Legendary Treasures",
+      cards: [
+        { number: "RC1",  name: "Snivy",            type: "grass",     count: 0 },
+        { number: "RC2",  name: "Servine",          type: "grass",     count: 0 },
+        { number: "RC3",  name: "Serperior",        type: "grass",     count: 0 },
+        { number: "RC4",  name: "Growlithe",        type: "fire",      count: 0 },
+        { number: "RC5",  name: "Torchic",          type: "fire",      count: 0 },
+        { number: "RC6",  name: "Piplup",           type: "water",     count: 0 },
+        { number: "RC7",  name: "Pikachu",          type: "lightning", count: 0 },
+        { number: "RC8",  name: "Ralts",            type: "psychic",   count: 1 },
+        { number: "RC9",  name: "Kirlia",           type: "psychic",   count: 0 },
+        { number: "RC10", name: "Gardevoir",        type: "psychic",   count: 0 },
+        { number: "RC11", name: "Meloetta-EX",      type: "psychic",   count: 0 },
+        { number: "RC12", name: "Stunfisk",         type: "fighting",  count: 1 },
+        { number: "RC13", name: "Purrloin",         type: "darkness",  count: 0 },
+        { number: "RC14", name: "Eevee",            type: "colorless", count: 1 },
+        { number: "RC15", name: "Teddiursa",        type: "colorless", count: 0 },
+        { number: "RC16", name: "Ursaring",         type: "colorless", count: 0 },
+        { number: "RC17", name: "Audino",           type: "colorless", count: 0 },
+        { number: "RC18", name: "Minccino",         type: "colorless", count: 0 },
+        { number: "RC19", name: "Cinccino",         type: "colorless", count: 0 },
+        { number: "RC20", name: "Elesa",            type: "trainer",   count: 0 },
+        { number: "RC21", name: "Shaymin-EX",       type: "grass",     count: 0 },
+        { number: "RC22", name: "Reshiram",         type: "fire",      count: 0, note: "Full Art" },
+        { number: "RC23", name: "Emolga",           type: "lightning", count: 0, note: "Full Art" },
+        { number: "RC24", name: "Mew-EX",           type: "psychic",   count: 0, note: "Full Art" },
+        { number: "RC25", name: "Meloetta-EX",      type: "psychic",   count: 0, note: "Full Art" }
+      ]
+    },
 
-  // Generations (RC2)
-  'g1-RC4': 1,
-  'g1-RC6': 1,
-  'g1-RC14': 3,
-  'g1-RC29': 1,
-  'g1-RC32': 0,
+    {
+      id: "xy-rc",
+      tcgSetId: "g1",
+      name: "Radiant Collection",
+      subtitle: "XY: Generations",
+      cards: [
+        { number: "RC1",  name: "Chikorita",        type: "grass",     count: 0 },
+        { number: "RC2",  name: "Shroomish",        type: "grass",     count: 1 },
+        { number: "RC3",  name: "Charmander",       type: "fire",      count: 1 },
+        { number: "RC4",  name: "Charmeleon",       type: "fire",      count: 1 },
+        { number: "RC5",  name: "Charizard",        type: "fire",      count: 0 },
+        { number: "RC6",  name: "Flareon-EX",       type: "fire",      count: 0 },
+        { number: "RC7",  name: "Snorunt",          type: "water",     count: 1 },
+        { number: "RC8",  name: "Froslass",         type: "water",     count: 1 },
+        { number: "RC9",  name: "Raichu",           type: "lightning", count: 0 },
+        { number: "RC10", name: "Dedenne",          type: "lightning", count: 1 },
+        { number: "RC11", name: "Wobbuffet",        type: "psychic",   count: 2 },
+        { number: "RC12", name: "Gulpin",           type: "psychic",   count: 0 },
+        { number: "RC13", name: "Jirachi",          type: "psychic",   count: 0 },
+        { number: "RC14", name: "Espurr",           type: "psychic",   count: 1 },
+        { number: "RC15", name: "Meowstic",         type: "psychic",   count: 1 },
+        { number: "RC16", name: "Yveltal",          type: "darkness",  count: 0 },
+        { number: "RC17", name: "Flabébé",          type: "fairy",     count: 1 },
+        { number: "RC18", name: "Floette",          type: "fairy",     count: 0 },
+        { number: "RC19", name: "Swirlix",          type: "fairy",     count: 1 },
+        { number: "RC20", name: "Slurpuff",         type: "fairy",     count: 2 },
+        { number: "RC21", name: "Sylveon-EX",       type: "fairy",     count: 0 },
+        { number: "RC22", name: "Diancie",          type: "fairy",     count: 2 },
+        { number: "RC23", name: "Swablu",           type: "colorless", count: 0 },
+        { number: "RC24", name: "Altaria",          type: "colorless", count: 1 },
+        { number: "RC25", name: "Fletchling",       type: "colorless", count: 1 },
+        { number: "RC26", name: "Floral Crown",     type: "trainer",   count: 1 },
+        { number: "RC27", name: "Wally",            type: "trainer",   count: 1 },
+        { number: "RC28", name: "Flareon-EX",       type: "fire",      count: 0, note: "Full Art" },
+        { number: "RC29", name: "Pikachu",          type: "lightning", count: 0, note: "Full Art" },
+        { number: "RC30", name: "Gardevoir-EX",     type: "fairy",     count: 0, note: "Full Art" },
+        { number: "RC31", name: "M Gardevoir-EX",   type: "fairy",     count: 0, note: "Full Art" },
+        { number: "RC32", name: "Sylveon-EX",       type: "fairy",     count: 0, note: "Full Art" }
+      ]
+    }
+  ]
 };

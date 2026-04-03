@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Sparkles } from 'lucide-react';
-import { RADIANT_COLLECTIONS, type CardSet, type PokemonCard } from './data/sets';
-import { MY_COLLECTION } from './config/collection';
+import { COLLECTION } from './config/collection';
 
 export default function App() {
   const [filter, setFilter] = useState<'all' | 'collected' | 'missing'>('all');
@@ -12,12 +11,11 @@ export default function App() {
     let collectedUnique = 0;
     let totalCopies = 0;
 
-    RADIANT_COLLECTIONS.forEach(set => {
-      totalCards += set.totalCards;
+    COLLECTION.sets.forEach(set => {
+      totalCards += set.cards.length;
       set.cards.forEach(card => {
-        const count = MY_COLLECTION[card.id] || 0;
-        if (count > 0) collectedUnique++;
-        totalCopies += count;
+        if (card.count > 0) collectedUnique++;
+        totalCopies += card.count;
       });
     });
 
@@ -105,14 +103,14 @@ export default function App() {
 
         {/* Set Sections */}
         <main className="space-y-8">
-          {RADIANT_COLLECTIONS.map((set) => {
+          {COLLECTION.sets.map((set) => {
             const setCards = set.cards;
-            const ownedInSet = setCards.filter(c => (MY_COLLECTION[c.id] || 0) > 0).length;
-            const setProgress = Math.round((ownedInSet / set.totalCards) * 100);
+            const ownedInSet = setCards.filter(c => c.count > 0).length;
+            const setProgress = Math.round((ownedInSet / setCards.length) * 100);
             
             const filteredSetCards = setCards.filter(card => {
-              if (filter === 'collected') return (MY_COLLECTION[card.id] || 0) > 0;
-              if (filter === 'missing') return (MY_COLLECTION[card.id] || 0) === 0;
+              if (filter === 'collected') return card.count > 0;
+              if (filter === 'missing') return card.count === 0;
               return true;
             });
 
@@ -126,12 +124,12 @@ export default function App() {
                       ✨ {set.name}
                     </h2>
                     <p className="text-[0.82rem] text-text-light mt-1">
-                      {set.id === 'rc1' ? 'Legendary Treasures' : 'Generations'} · {set.id === 'rc1' ? '2013' : '2016'}
+                      {set.subtitle}
                     </p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <div className="font-display font-bold text-[1.6rem] text-text leading-none">
-                      {ownedInSet}<span className="text-[0.9rem] text-text-light">/{set.totalCards}</span>
+                      {ownedInSet}<span className="text-[0.9rem] text-text-light">/{setCards.length}</span>
                     </div>
                     <p className="text-[0.78rem] text-text-light mt-1">{setProgress}% complete</p>
                   </div>
@@ -149,9 +147,9 @@ export default function App() {
                   <AnimatePresence mode="popLayout">
                     {filteredSetCards.map((card) => (
                       <CardItem 
-                        key={card.id} 
+                        key={`${set.id}-${card.number}`} 
                         card={card} 
-                        count={MY_COLLECTION[card.id] || 0} 
+                        tcgSetId={set.tcgSetId}
                       />
                     ))}
                   </AnimatePresence>
@@ -165,10 +163,11 @@ export default function App() {
   );
 }
 
-function CardItem({ card, count }: { card: PokemonCard; count: number; key?: string }) {
-  const isCollected = count > 0;
-  const isMulti = count > 1;
+function CardItem({ card, tcgSetId }: { card: any; tcgSetId: string; key?: string }) {
+  const isCollected = card.count > 0;
+  const isMulti = card.count > 1;
   const [hasImg, setHasImg] = useState(false);
+  const imageUrl = `https://images.pokemontcg.io/${tcgSetId}/${card.number}_hires.png`;
 
   return (
     <motion.div
@@ -196,7 +195,7 @@ function CardItem({ card, count }: { card: PokemonCard; count: number; key?: str
           : 'bg-[#f0ecf6] border-[#e4dff0]'
       }`}>
         <img 
-          src={card.imageUrl} 
+          src={imageUrl} 
           alt={card.name}
           onLoad={() => setHasImg(true)}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
@@ -224,14 +223,19 @@ function CardItem({ card, count }: { card: PokemonCard; count: number; key?: str
             <div className={`font-display font-bold text-[0.68rem] leading-tight ${isCollected ? 'text-text' : 'text-[#bbb0cc]'}`}>
               {card.name}
             </div>
-            <div className={`w-2.5 h-2.5 rounded-full border-[1.5px] border-white/70 absolute bottom-2 left-2 opacity-85 z-[4] ${getTypeColor(card.rarity)}`} />
+            {card.note && (
+              <div className="text-[0.56rem] text-text-light italic mt-0.5">
+                {card.note}
+              </div>
+            )}
+            <div className={`w-2.5 h-2.5 rounded-full border-[1.5px] border-white/70 absolute bottom-2 left-2 opacity-85 z-[4] ${getTypeColor(card.type)}`} />
           </div>
         )}
 
         {/* Count Badge */}
         {isMulti && (
           <div className="absolute top-1.5 right-1.5 bg-white text-text font-display font-bold text-[0.58rem] rounded-full px-1.5 py-0.5 shadow-[0_1px_6px_rgba(0,0,0,0.13)] leading-tight z-[5]">
-            ×{count}
+            ×{card.count}
           </div>
         )}
       </div>
@@ -239,17 +243,19 @@ function CardItem({ card, count }: { card: PokemonCard; count: number; key?: str
   );
 }
 
-function getTypeColor(rarity: string) {
-  const r = rarity.toLowerCase();
-  if (r.includes('fire')) return 'bg-[#f07830]';
-  if (r.includes('water')) return 'bg-[#40a0f8]';
-  if (r.includes('grass')) return 'bg-[#60c860]';
-  if (r.includes('psychic')) return 'bg-[#c070f0]';
-  if (r.includes('fairy')) return 'bg-[#f87ad0]';
-  if (r.includes('dark')) return 'bg-[#6858a8]';
-  if (r.includes('metal')) return 'bg-[#8090a8]';
-  if (r.includes('dragon')) return 'bg-[#3890a8]';
-  if (r.includes('trainer')) return 'bg-[#d89030]';
+function getTypeColor(type: string) {
+  const t = type.toLowerCase();
+  if (t.includes('fire')) return 'bg-[#f07830]';
+  if (t.includes('water')) return 'bg-[#40a0f8]';
+  if (t.includes('grass')) return 'bg-[#60c860]';
+  if (t.includes('psychic')) return 'bg-[#c070f0]';
+  if (t.includes('fairy')) return 'bg-[#f87ad0]';
+  if (t.includes('dark')) return 'bg-[#6858a8]';
+  if (t.includes('metal')) return 'bg-[#8090a8]';
+  if (t.includes('dragon')) return 'bg-[#3890a8]';
+  if (t.includes('lightning')) return 'bg-[#f8d030]';
+  if (t.includes('fighting')) return 'bg-[#c03028]';
+  if (t.includes('trainer')) return 'bg-[#d89030]';
   return 'bg-[#b0a8a0]';
 }
 
